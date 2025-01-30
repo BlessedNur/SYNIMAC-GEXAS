@@ -14,37 +14,37 @@ function Footer() {
     {
       title: "About Synimac Gexas",
       links: [
-        { name: "Overview", href: "/about/overview" },
-        { name: "Leadership", href: "/about/leadership" },
-        { name: "Global Presence", href: "/about/global-presence" },
-        { name: "Careers", href: "/about/careers" },
+        { name: "Company Profile", href: "/about" },
+        { name: "Our Mission", href: "/about#mission" },
+        { name: "Our Vision", href: "/about#vision" },
+        { name: "Contact Us", href: "/about#contact" },
+      ],
+    },
+    {
+      title: "Media Centre",
+      links: [
+        { name: "News & Updates", href: "/media" },
+        { name: "Press Releases", href: "/media#press" },
+        { name: "Events", href: "/media#events" },
+        { name: "Media Library", href: "/media#library" },
       ],
     },
     {
       title: "Our Work",
       links: [
-        { name: "Solutions", href: "/our-work/solutions" },
-        { name: "Industries", href: "/our-work/industries" },
-        { name: "Case Studies", href: "/our-work/case-studies" },
-        { name: "Innovation", href: "/our-work/innovation" },
+        { name: "Projects", href: "/our-work" },
+        { name: "Services", href: "/our-work#services" },
+        { name: "Technologies", href: "/our-work#technologies" },
+        { name: "Achievements", href: "/our-work#achievements" },
       ],
     },
     {
       title: "Knowledge Centre",
       links: [
-        { name: "Research", href: "/knowledge/research" },
-        { name: "Training", href: "/knowledge/training" },
-        { name: "Documentation", href: "/knowledge/documentation" },
-        { name: "Support", href: "/knowledge/support" },
-      ],
-    },
-    {
-      title: "Resources",
-      links: [
-        { name: "Downloads", href: "/resources/downloads" },
-        { name: "Tools", href: "/resources/tools" },
-        { name: "Guidelines", href: "/resources/guidelines" },
-        { name: "FAQ", href: "/resources/faq" },
+        { name: "Publications", href: "/publications" },
+        { name: "Research", href: "/knowledge" },
+        { name: "Resources", href: "/resources" },
+        { name: "Support", href: "/support" },
       ],
     },
   ];
@@ -56,11 +56,21 @@ function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <img
-              src="/synimac-logo-white.png"
-              alt="SYNIMAC GEXAS Logo"
-              className="h-12 lg:h-16"
-            />
+            <div className="flex gap-2 items-center">
+              <img
+                src="/images/synimac_logo_page-0001-removebg-preview.png"
+                alt="Synimac Gexas Logo"
+                className="h-[5em] w-auto object-contain brightness-0 invert"
+              />
+              <div className="flex flex-col">
+                <span className="text-2xl font-extrabold tracking-tight text-white leading-tight">
+                  S.Y.N.I.M.A.C
+                </span>
+                <span className="text-xl font-bold text-white leading-tight">
+                  GEXAS
+                </span>
+              </div>
+            </div>
             <p className="text-sm">
               SYNIMAC GEXAS
               <br />

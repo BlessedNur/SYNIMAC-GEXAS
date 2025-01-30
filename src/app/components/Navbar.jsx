@@ -49,21 +49,19 @@ function Navbar() {
       window.removeEventListener("scroll", controlNavbar);
     };
   }, [lastScrollY]);
-
-  // Function to generate all pages from navItems
+  // Update the generateAllPages function to include both navbar and footer links
   const generateAllPages = () => {
     const pages = [];
 
+    // Add navbar items and their submenus
     navItems.forEach((item) => {
-      // Add main section page
       pages.push({
         title: item.title,
         path: item.href,
-        category: "Main Sections",
+        category: "Main Navigation",
         description: `Main section for ${item.title}`,
       });
 
-      // Add submenu pages
       item.submenu.forEach((subItem) => {
         const subItemSlug = subItem.toLowerCase().replace(/\s+/g, "-");
         pages.push({
@@ -75,61 +73,55 @@ function Navbar() {
       });
     });
 
-    // Add additional pages and their detailed content
+    // Add footer quick links
+    quickLinks.forEach((section) => {
+      section.links.forEach((link) => {
+        pages.push({
+          title: link.name,
+          path: link.href,
+          category: section.title,
+          description: `${link.name} under ${section.title}`,
+        });
+      });
+    });
+
+    // Add additional pages with detailed content
     return [
       ...pages,
       // About section details
       {
         title: "Company Overview",
-        path: "/about/overview",
-        category: "About Syiamac Gexas",
+        path: "/about",
+        category: "About Synimac Gexas",
         description:
           "Complete overview of our company history, mission, and values",
       },
-      {
-        title: "Leadership Profiles",
-        path: "/about/leadership",
-        category: "About Synimac Gexas",
-        description:
-          "Detailed profiles of our executive team and board members",
-      },
+     
       // Media Centre details
       {
         title: "Latest Press Releases",
-        path: "/media/press-releases",
+        path: "/media",
         category: "Media Centre",
         description: "Most recent company announcements and press releases",
       },
-      {
-        title: "Media Library",
-        path: "/media/library",
-        category: "Media Centre",
-        description: "Download high-resolution images, logos, and media kits",
-      },
       // Knowledge Centre details
-      {
-        title: "Research Papers",
-        path: "/knowledge/research",
-        category: "Knowledge Centre",
-        description: "Access our latest research papers and industry analyses",
-      },
+     
       {
         title: "Training Programs",
-        path: "/knowledge/training",
+        path: "/knowledge",
         category: "Knowledge Centre",
         description:
           "Browse our comprehensive training programs and certifications",
       },
       // Resources details
       {
-        title: "Technical Documentation",
-        path: "/resources/documentation",
+        title: "Resources Overview",
+        path: "/resources",
         category: "Resources",
-        description: "Detailed technical guides and documentation",
       },
       {
         title: "FAQ Database",
-        path: "/resources/faq",
+        path: "/faq",
         category: "Resources",
         description: "Comprehensive database of frequently asked questions",
       },
@@ -146,8 +138,78 @@ function Navbar() {
         category: "Contact",
         description: "Get in touch with our team and find our locations",
       },
+      // Legal pages from footer
+      {
+        title: "Privacy Policy",
+        path: "/privacy",
+        category: "Legal",
+        description: "Our privacy policy and data protection practices",
+      },
+      {
+        title: "Terms of Service",
+        path: "/terms",
+        category: "Legal",
+        description: "Terms and conditions for using our services",
+      },
+      {
+        title: "Security",
+        path: "/security",
+        category: "Legal",
+        description: "Information about our security measures and practices",
+      },
+      {
+        title: "Compliance",
+        path: "/compliance",
+        category: "Legal",
+        description: "Details about our regulatory compliance and standards",
+      },
+      {
+        title: "Sitemap",
+        path: "/sitemap",
+        category: "Site Navigation",
+        description: "Complete overview of website structure",
+      },
     ];
   };
+
+  const quickLinks = [
+    {
+      title: "About Synimac Gexas",
+      links: [
+        { name: "Company Profile", href: "/about" },
+        // { name: "Our Mission", href: "/about#mission" },
+        // { name: "Our Vision", href: "/about#vision" },
+        // { name: "Contact Us", href: "/about#contact" },
+      ],
+    },
+    {
+      title: "Media Centre",
+      links: [
+        { name: "News & Updates", href: "/media" },
+        // { name: "Press Releases", href: "/media#press" },
+        // { name: "Events", href: "/media#events" },
+        // { name: "Media Library", href: "/media#library" },
+      ],
+    },
+    {
+      title: "Our Work",
+      links: [
+        { name: "Projects", href: "/our-work" },
+        // { name: "Services", href: "/our-work#services" },
+        // { name: "Technologies", href: "/our-work#technologies" },
+        // { name: "Achievements", href: "/our-work#achievements" },
+      ],
+    },
+    {
+      title: "Knowledge Centre",
+      links: [
+        { name: "Publications", href: "/publications" },
+        // { name: "Research", href: "/knowledge" },
+        // { name: "Resources", href: "/resources" },
+        // { name: "Support", href: "/support" },
+      ],
+    },
+  ];
 
   // Enhanced search function with category grouping
   const handleSearch = (query) => {
@@ -211,8 +273,8 @@ function Navbar() {
       submenu: ["Latest News", "Updates", "Blog", "Newsletter"],
     },
     {
-      title: "Meetings",
-      href: "/meetings",
+      title: "Events",
+      href: "/events",
       submenu: ["Schedule", "Registration", "Virtual Events", "Past Events"],
     },
     {
@@ -360,35 +422,19 @@ function Navbar() {
             <div className="flex justify-between">
               <div className="flex">
                 {navItems.map((item) => (
-                  <div key={item.title} className="relative group">
-                    <a
-                      href={item.href}
-                      className="px-4 py-4 text-white hover:bg-blue-800 text-sm font-medium flex items-center transition-colors duration-200"
-                    >
-                      {item.title}
-                      <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-200 group-hover:rotate-180" />
-                    </a>
-                    {/* Dropdown */}
-                    <div className="absolute left-0 hidden group-hover:block w-48 bg-white shadow-lg rounded-b-lg">
-                      {item.submenu.map((subItem) => (
-                        <a
-                          key={subItem}
-                          href="#"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700"
-                        >
-                          {subItem}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
+                  <a
+                    key={item.title}
+                    href={item.href}
+                    className="px-6 py-4 text-white hover:bg-blue-800 text-sm font-medium transition-colors duration-200"
+                  >
+                    {item.title}
+                  </a>
                 ))}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Mobile Menu Overlay */}
-        {/* Mobile Menu Overlay */}
         {/* Mobile Menu Overlay */}
         <div
           className={`${
@@ -450,48 +496,15 @@ function Navbar() {
               {/* Mobile Navigation Items with Accordion */}
               <div className="space-y-2">
                 {navItems.map((item, index) => (
-                  <div
+                  <a
                     key={index}
-                    className="border-b border-gray-200 last:border-0"
+                    href={item.href}
+                    className="block py-3 text-gray-800 hover:text-blue-700 font-medium border-b border-gray-200 last:border-0"
                   >
-                    <button
-                      onClick={() =>
-                        setActiveDropdown(
-                          activeDropdown === index ? null : index
-                        )
-                      }
-                      className="w-full py-3 flex justify-between items-center text-gray-800 hover:text-blue-700 font-medium"
-                    >
-                      <span>{item.title}</span>
-                      <ChevronDown
-                        className={`h-5 w-5 transition-transform duration-200 ${
-                          activeDropdown === index ? "rotate-180" : ""
-                        }`}
-                      />
-                    </button>
-                    <div
-                      className={`overflow-hidden transition-all duration-200 ease-in-out ${
-                        activeDropdown === index
-                          ? "max-h-[500px] opacity-100"
-                          : "max-h-0 opacity-0"
-                      }`}
-                    >
-                      <div className="pl-4 pb-3 space-y-2">
-                        {item.submenu.map((subItem, subIndex) => (
-                          <a
-                            key={subIndex}
-                            href="#"
-                            className="block py-2 text-sm text-gray-600 hover:text-blue-700"
-                          >
-                            {subItem}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+                    {item.title}
+                  </a>
                 ))}
               </div>
-
               {/* Mobile Utility Links */}
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <div className="space-y-3">
