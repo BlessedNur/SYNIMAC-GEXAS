@@ -9,6 +9,20 @@ function Navbar() {
   const searchRef = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  // Add this near your other state declarations
+  const [activeDropdown, setActiveDropdown] = useState(null);
+
+  // Add this useEffect to handle body scrolling
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
 
   useEffect(() => {
     const controlNavbar = () => {
@@ -242,10 +256,20 @@ function Navbar() {
         <div className="max-w-[1350px] mx-auto px-4">
           <div className="flex justify-between items-center h-24">
             {/* ... Logo code ... */}
-            <div className="flex-shrink-0 flex items-center">
-              <span className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-blue-500 bg-clip-text text-transparent">
-                SYNIMAC GEXAS
-              </span>
+            <div className="flex-shrink-0 flex gap-2 md:gap-3 items-center">
+              <img
+                src="/images/synimac_logo_page-0001-removebg-preview.png"
+                alt="Synimac Gexas Logo"
+                className="h-16 md:h-[6.5em] w-auto object-contain"
+              />
+              <div className="flex flex-col">
+                <span className="text-2xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent leading-tight">
+                  S.Y.N.I.M.A.C
+                </span>
+                <span className="text-xl md:text-3xl font-bold bg-gradient-to-r from-blue-700 to-blue-500 bg-clip-text text-transparent leading-tight">
+                  GEXAS
+                </span>
+              </div>
             </div>
             {/* Enhanced Desktop Search with Categories */}
             <div
@@ -363,18 +387,42 @@ function Navbar() {
           </div>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile Menu Overlay */}
+        {/* Mobile Menu Overlay */}
+        {/* Mobile Menu Overlay */}
+        <div
+          className={`${
+            isOpen
+              ? "opacity-80 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          } fixed inset-0 h-screen bg-black transition-opacity duration-300 ease-in-out z-40 md:hidden`}
+          onClick={() => setIsOpen(false)}
+        />
+
+        {/* Mobile Menu Panel */}
         <div
           className={`${
             isOpen ? "translate-x-0" : "-translate-x-full"
-          } fixed top-0 left-0 h-full w-full bg-white transform transition-transform duration-300 ease-in-out md:hidden overflow-y-auto`}
+          } fixed top-0 left-0 h-screen w-[22rem] bg-white transform transition-transform duration-300 ease-in-out z-50 md:hidden flex flex-col`}
         >
-          <div className="p-4">
-            {/* Mobile menu header */}
-            <div className="flex justify-between items-center mb-8">
-              <span className="text-2xl font-bold text-blue-700">
-                SYNIMAC GEXAS
-              </span>
+          {/* Fixed Header */}
+          <div className="p-4 border-b border-gray-200 bg-white">
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2 items-center">
+                <img
+                  src="/images/synimac_logo_page-0001-removebg-preview.png"
+                  alt="Synimac Gexas Logo"
+                  className="h-14 w-auto object-contain"
+                />
+                <div className="flex flex-col">
+                  <span className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent leading-tight">
+                    S.Y.N.I.M.A.C
+                  </span>
+                  <span className="text-xl font-bold bg-gradient-to-r from-blue-700 to-blue-500 bg-clip-text text-transparent leading-tight">
+                    GEXAS
+                  </span>
+                </div>
+              </div>
               <button
                 onClick={() => setIsOpen(false)}
                 className="p-2 rounded-md text-gray-700 hover:text-blue-700 hover:bg-blue-50"
@@ -382,67 +430,86 @@ function Navbar() {
                 <X size={24} />
               </button>
             </div>
+          </div>
 
-            {/* Mobile search */}
-            <div className="mb-6">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:border-blue-500"
-                />
-                <Search className="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
-              </div>
-            </div>
-
-            {/* Mobile navigation items */}
-            <div className="space-y-2">
-              {navItems.map((item) => (
-                <div
-                  key={item.title}
-                  className="border-b border-gray-200 last:border-0"
-                >
-                  <div className="py-3">
-                    <a
-                      href={item.href}
-                      className="flex justify-between items-center text-gray-800 hover:text-blue-700 font-medium"
-                    >
-                      {item.title}
-                      <ChevronDown className="h-5 w-5" />
-                    </a>
-                  </div>
-                  <div className="pl-4 pb-3">
-                    {item.submenu.map((subItem) => (
-                      <a
-                        key={subItem}
-                        href="#"
-                        className="block py-2 text-sm text-gray-600 hover:text-blue-700"
-                      >
-                        {subItem}
-                      </a>
-                    ))}
-                  </div>
+          {/* Scrollable Content */}
+          <div className="flex-1 overflow-y-auto">
+            <div className="p-4">
+              {/* Mobile Search */}
+              <div className="mb-6">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:border-blue-500"
+                  />
+                  <Search className="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
                 </div>
-              ))}
-            </div>
+              </div>
 
-            {/* Mobile utility links */}
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <div className="space-y-3">
-                <a
-                  href="/contact"
-                  className="flex items-center text-gray-600 hover:text-blue-700"
-                >
-                  <Phone className="h-5 w-5 mr-2" />
-                  Contact Us
-                </a>
-                <a
-                  href="/support"
-                  className="flex items-center text-gray-600 hover:text-blue-700"
-                >
-                  <HelpCircle className="h-5 w-5 mr-2" />
-                  24/7 Support
-                </a>
+              {/* Mobile Navigation Items with Accordion */}
+              <div className="space-y-2">
+                {navItems.map((item, index) => (
+                  <div
+                    key={index}
+                    className="border-b border-gray-200 last:border-0"
+                  >
+                    <button
+                      onClick={() =>
+                        setActiveDropdown(
+                          activeDropdown === index ? null : index
+                        )
+                      }
+                      className="w-full py-3 flex justify-between items-center text-gray-800 hover:text-blue-700 font-medium"
+                    >
+                      <span>{item.title}</span>
+                      <ChevronDown
+                        className={`h-5 w-5 transition-transform duration-200 ${
+                          activeDropdown === index ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                    <div
+                      className={`overflow-hidden transition-all duration-200 ease-in-out ${
+                        activeDropdown === index
+                          ? "max-h-[500px] opacity-100"
+                          : "max-h-0 opacity-0"
+                      }`}
+                    >
+                      <div className="pl-4 pb-3 space-y-2">
+                        {item.submenu.map((subItem, subIndex) => (
+                          <a
+                            key={subIndex}
+                            href="#"
+                            className="block py-2 text-sm text-gray-600 hover:text-blue-700"
+                          >
+                            {subItem}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Mobile Utility Links */}
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <div className="space-y-3">
+                  <a
+                    href="/contact"
+                    className="flex items-center text-gray-600 hover:text-blue-700"
+                  >
+                    <Phone className="h-5 w-5 mr-2" />
+                    Contact Us
+                  </a>
+                  <a
+                    href="/support"
+                    className="flex items-center text-gray-600 hover:text-blue-700"
+                  >
+                    <HelpCircle className="h-5 w-5 mr-2" />
+                    24/7 Support
+                  </a>
+                </div>
               </div>
             </div>
           </div>
